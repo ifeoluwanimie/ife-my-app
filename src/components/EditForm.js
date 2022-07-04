@@ -5,47 +5,47 @@ import { useParams } from "react-router-dom";
 const EditForm = () => {
   const { id } = useParams();
 
-  const [email, setEmail] = useState("testtwo@gmail.com");
-  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState();
 
-  const baseURL = "https://jsonplaceholder.typicode.com/todos";
+  const baseURL = `https://jsonplaceholder.typicode.com/posts/${id}`;
 
-  const getAllContacts = () => {
+  const getSingleContact = () => {
     axios.get(baseURL).then((response) => {
-      console.log(response.data);
+      setTitle(response.data.title);
+    });
+  };
+
+  const editTitle = (event) => {
+    event.preventDefault();
+    const variables = {
+      id,
+      title,
+    };
+
+    console.log("the most recent title", variables);
+    axios.put(baseURL, title).then((res) => {
+      console.log(res);
     });
   };
 
   useEffect(() => {
-    getAllContacts();
+    getSingleContact();
   }, []);
 
   return (
     <div>
       <p>Edit Page for {id}</p>
-      <form action="">
-        <label htmlFor="email">
-          Email:{" "}
+      <form action="" onSubmit={editTitle}>
+        <label htmlFor="title">
+          Title:{" "}
           <input
-            readOnly
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <label htmlFor="email">
-          Password:{" "}
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            defaultValue={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </label>
         <input type="submit" />
-        Login
-        {/* <p>
-          New user? <Link to="/register">Register</Link>
-        </p> */}
+        Edit
       </form>
     </div>
   );
