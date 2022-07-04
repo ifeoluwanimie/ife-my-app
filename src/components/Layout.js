@@ -17,7 +17,7 @@ const Layout = () => {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/edit/:id">Edit</Link>
+            <Link to="/edit/:test">Edit</Link>
           </li>
           <li>
             <Link to="/all-contacts">All Contacts</Link>
