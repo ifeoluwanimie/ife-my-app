@@ -7,6 +7,7 @@ import deleteIcon from "../assets/delete.svg";
 
 const AllContactsPage = () => {
   const navigate = useNavigate();
+  // const id = contact.id;
 
   const [allContacts, setAllContacts] = useState([]);
   const baseURL = "https://jsonplaceholder.typicode.com/posts";
@@ -17,13 +18,18 @@ const AllContactsPage = () => {
     });
   };
 
+  const deleteContact = (id) => {
+    console.log("selected id", id);
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
   useEffect(() => {
     getAllContacts();
   }, []);
-
-  const goToEditPage = () => {
-    navigate("/edit");
-  };
 
   return (
     <div className="contact-layout">
@@ -37,10 +43,10 @@ const AllContactsPage = () => {
               </Link>
 
               <div className="">
-                <Link to={`${contact.id}`} className="">
+                <Link to={`/edit/${contact.id}`} className="">
                   <img src={edit} alt="edit" />
                 </Link>
-                <div className="">
+                <div onClick={() => deleteContact(contact.id)}>
                   <img src={deleteIcon} alt="deleteIcon" />
                 </div>
               </div>
